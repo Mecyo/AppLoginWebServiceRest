@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+
+        <item name="android:popupTheme">@style/PopupMenuTheme</item>
+        <item name="android:navigationBarColor">@color/colorPrimary</item>
+    </style>
+</resources>
