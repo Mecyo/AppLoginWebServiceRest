@@ -2,12 +2,17 @@ package br.edu.ifba.samuv.connection;
 
 import java.util.List;
 
+import br.edu.ifba.samuv.models.Atendimento;
+import br.edu.ifba.samuv.models.Imagem;
 import br.edu.ifba.samuv.models.Usuario;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 
 public interface SamuvService {
@@ -21,4 +26,9 @@ public interface SamuvService {
 
     @GET("usuarios/")
     Call<List<Usuario>> getUsuariosList();
+
+    @Multipart
+    @POST("xpto/upload")
+    public Call<Atendimento> upload(@Part("file\"; filename=\"image.jpg\"") RequestBody file,
+                                    @Part("descricao") RequestBody descricao);
 }

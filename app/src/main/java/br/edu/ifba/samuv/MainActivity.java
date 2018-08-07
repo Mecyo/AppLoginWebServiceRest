@@ -19,8 +19,16 @@ import android.widget.Toast;
 
 import java.io.IOException;
 
+import br.edu.ifba.samuv.connection.RetrofitConfig;
+import br.edu.ifba.samuv.models.Atendimento;
+import br.edu.ifba.samuv.models.Imagem;
 import br.edu.ifba.samuv.models.Usuario;
 import br.edu.ifba.samuv.util.Utils;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -99,4 +107,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             image_capture.setImageBitmap(imBitmap);
         }
     }
+
+    public Atendimento iniciarAtendimento(final Imagem imagem, final MainActivity mainActivity){
+        try {
+            showProgress(mainActivity,"Aguarde","Criando seu anúncio...");
+
+            RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), imagem.getFoto());
+            RequestBody descricao= RequestBody.create(MediaType.parse("text/plain"), anuncio.getDescricao());
+            Call<Atendimento> call = new RetrofitConfig().samuvService().upload(requestBody, descricao);
+            call.enqueue(new Callback<Atendimento>() {
+                @Override
+                public void onResponse(Call<Atendimento> call, Response<Atendimento> response) {
+
+                }
+
+                @Override
+                public void onFailure(Call<Atendimento> call, Throwable t) {
+
+                }
+            });
+		}catch(Exception e) {
+		}
 }
