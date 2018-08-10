@@ -1,12 +1,23 @@
 package br.edu.ifba.samuv.util;
 
+import android.content.Context;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.util.Log;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URL;
 
 /**
@@ -43,5 +54,22 @@ public class Utils {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public static File bitmapToFile(Bitmap bitmap, Context context, String name){
+        File filesDir = context.getFilesDir();
+        File imageFile = new File(filesDir, name);
+
+        OutputStream os;
+        try {
+            os = new FileOutputStream(imageFile);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, os);
+            os.flush();
+            os.close();
+        } catch (Exception e) {
+            //Log.e(getClass().getSimpleName(), "Error writing bitmap", e);
+        }
+
+        return imageFile;
     }
 }

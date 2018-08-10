@@ -23,9 +23,19 @@
     <ImageView
         android:id="@+id/img_photo_capture"
         android:layout_width="match_parent"
-        android:layout_height="494dp"
+        android:layout_height="436dp"
         android:layout_gravity="center"
         android:layout_marginTop="16dp"
         android:scaleType="centerCrop" />
+
+    <TextView
+        android:id="@+id/txtLink"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bem vindo, "
+        android:layout_gravity="center"
+        android:textColor="@color/colorAccent"
+        app:layout_anchor="@+id/toolbar_main"
+        app:layout_anchorGravity="right|center" />
 
 </LinearLayout>
