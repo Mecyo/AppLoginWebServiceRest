@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar_main"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorPrimary"
+            app:popupTheme="@style/PopupMenuTheme"
+            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <TextView
+        android:id="@+id/txtTitulo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pacientes"
+        android:textColor="@color/primaryTextColor"
+        app:layout_anchor="@+id/toolbar_main"
+        android:textSize="30dp"
+        app:layout_anchorGravity="left|center" />
+
+    <TextView
+        android:id="@+id/txtLogado"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bem vindo, "
+        android:textColor="@color/primaryTextColor"
+        app:layout_anchor="@+id/toolbar_main"
+        app:layout_anchorGravity="right|center" />
+
+</android.support.design.widget.CoordinatorLayout>

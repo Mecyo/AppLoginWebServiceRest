@@ -1,9 +1,10 @@
-package br.edu.ifba.samuv;
+package br.edu.ifba.samuv.activities;
 
 import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -15,7 +16,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -23,20 +23,20 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
+import br.edu.ifba.samuv.R;
 import br.edu.ifba.samuv.connection.RetrofitConfig;
-import br.edu.ifba.samuv.connection.SamuvService;
 import br.edu.ifba.samuv.models.Atendimento;
-import br.edu.ifba.samuv.models.Imagem;
 import br.edu.ifba.samuv.models.Usuario;
 import br.edu.ifba.samuv.util.Utils;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.http.Url;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -44,8 +44,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private FloatingActionButton fab_main;
     private static final int REQUEST_CAPTURE_CAMERA =100;
     private ImageView image_capture;
-    private TextView txtLogado;
-    private TextView txtLink;
     private ProgressDialog load;
     private Usuario usuarioLogado;
     private Uri mImageUri;
@@ -64,24 +62,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String jsonInString = it.getStringExtra("user");
 
         //JSON from String to Object
-        try {
+        /*try {
             usuarioLogado = (Usuario)Utils.JsonToObject(jsonInString, Usuario.class);
         } catch (IOException e) {
             Toast.makeText(getApplicationContext(), "Erro: " + e.getMessage(), Toast.LENGTH_LONG).show();
             e.printStackTrace();
-        }
-        String nomeUsuario = usuarioLogado.getNomeUsuario();
+        }*/
+        String nomeUsuario = "Mecyo";//usuarioLogado.getNomeUsuario();
 
         Toolbar toolbar = findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
 
-        txtLogado = findViewById(R.id.txtLogado);
-        txtLogado.setText("Bem vindo, " + nomeUsuario);
-
         fab_main = findViewById(R.id.fab_main);
         image_capture = findViewById(R.id.img_photo_capture);
 
-        txtLink = findViewById(R.id.txtLink);
         fab_main.setOnClickListener(this);
     }
 
@@ -120,26 +114,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Bitmap imBitmap = (Bitmap)extra.get("data");
             image_capture.setImageBitmap(imBitmap);
             String path = getRealPathFromURI(mImageUri);
-            File file = Utils.bitmapToFile(imBitmap, getApplicationContext(), path);
+            String filename = path.substring(path.lastIndexOf("/")+1);
+            File file = Utils.bitmapToFile(imBitmap, getApplicationContext(), filename);
 
-            iniciarAtendimento(file);
+            iniciarAtendimento(file, filename);
         }
     }
 
-    private void iniciarAtendimento(File file) {
+    private void iniciarAtendimento(File file, String filename) {
         final String retorno;
         RequestBody reqFile = RequestBody.create(MediaType.parse("image/*"), file);
-        MultipartBody.Part body = MultipartBody.Part.createFormData("upload", file.getName(), reqFile);
-        RequestBody name = RequestBody.create(MediaType.parse("text/plain"), "upload_test");
+        MultipartBody.Part body = MultipartBody.Part.createFormData("foto", file.getName(), reqFile);
+        //RequestBody name = RequestBody.create(MediaType.parse("text/plain"), filename);
+        //RequestBody idProfissional = RequestBody.create(MediaType.parse("text/plain"), "1");
+        //RequestBody idPaciente = RequestBody.create(MediaType.parse("text/plain"), "2");
 
-        Call<String> call = new RetrofitConfig().samuvService().postImage(body, name);
+        //Call<ResponseBody> call = new RetrofitConfig().samuvService().postImage(body, filename, 1, 2);
+        Call<List<Usuario>> call = new RetrofitConfig().samuvService().getUsuariosList();
 
-        call.enqueue(new Callback<String>() {
+        call.enqueue(new Callback<List<Usuario>>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
+            public void onResponse(Call<List<Usuario>> call, Response<List<Usuario>> response) {
                 // pegar a resposta
                 if (response.isSuccessful()) {
-                    txtLink.setText(response.body());
                     Toast.makeText(getApplicationContext(), response.message(), Toast.LENGTH_LONG).show();
                 }
                 else {
@@ -148,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(Call<List<Usuario>> call, Throwable t) {
                 // tratar algum erro
                 Toast.makeText(getApplicationContext(), "Não foi possível realizar o login: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
