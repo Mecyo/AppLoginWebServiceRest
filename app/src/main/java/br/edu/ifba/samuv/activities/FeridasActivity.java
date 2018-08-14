@@ -58,34 +58,39 @@ public class FeridasActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        Call<List<Ferida>> call = new RetrofitConfig().samuvService().getFeridasPaciente(String.valueOf(paciente.getIdPaciente()));
+        try{
 
-        call.enqueue(new Callback<List<Ferida>>() {
-            @Override
-            public void onResponse(Call<List<Ferida>> call, Response<List<Ferida>> response) {
-                // pegar a resposta
-                if (response.isSuccessful()) {
-                    List<Ferida> feridas = response.body();
+            Call<List<Ferida>> call = new RetrofitConfig().samuvService().getFeridasPaciente(paciente.getIdPaciente());
 
-                    // Adiciona o adapter que irá anexar os objetos à lista.
-                    adapterFerida = new FeridasAdapter(feridas);
-                    recyclerView.setAdapter(adapterFerida);
+            call.enqueue(new Callback<List<Ferida>>() {
+                @Override
+                public void onResponse(Call<List<Ferida>> call, Response<List<Ferida>> response) {
+                    // pegar a resposta
+                    if (response.isSuccessful()) {
+                        List<Ferida> feridas = response.body();
 
-                    // Configurando um separador entre linhas, para uma melhor visualização.
-                    recyclerView.addItemDecoration(new DividerItemDecoration(FeridasActivity.this, DividerItemDecoration.VERTICAL));
+                        // Adiciona o adapter que irá anexar os objetos à lista.
+                        adapterFerida = new FeridasAdapter(feridas);
+                        recyclerView.setAdapter(adapterFerida);
 
+                        // Configurando um separador entre linhas, para uma melhor visualização.
+                        recyclerView.addItemDecoration(new DividerItemDecoration(FeridasActivity.this, DividerItemDecoration.VERTICAL));
+
+                    }
+                    else {
+                        Toast.makeText(getApplicationContext(), "Não foi possível carregar os feridas!", Toast.LENGTH_LONG).show();
+                    }
                 }
-                else {
-                    Toast.makeText(getApplicationContext(), "Não foi possível carregar os feridas!", Toast.LENGTH_LONG).show();
-                }
-            }
 
-            @Override
-            public void onFailure(Call<List<Ferida>> call, Throwable t) {
-                // tratar algum erro
-                Toast.makeText(getApplicationContext(), "Não foi possível carregar os feridas: " + t.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        });
+                @Override
+                public void onFailure(Call<List<Ferida>> call, Throwable t) {
+                    // tratar algum erro
+                    Toast.makeText(getApplicationContext(), "Não foi possível carregar os feridas: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            });}
+        catch (Exception e){
+            e.getMessage();
+        }
     }
 
     //CRIA OS EVENTOS DOS COMPONENTES

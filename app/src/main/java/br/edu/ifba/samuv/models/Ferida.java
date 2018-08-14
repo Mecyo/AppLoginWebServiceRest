@@ -1,18 +1,12 @@
 package br.edu.ifba.samuv.models;
 
-public class Ferida extends Doenca {
+public class Ferida {
 
     private int idFerida;
-    private Doenca doenca;
+    private Doenca idDoenca;
     private CaracteristicaFerida caracteristica;
 
-
-    public Ferida(int idDoenca, Paciente paciente, String tipo, String apelido, int idFerida, Doenca doenca, CaracteristicaFerida caracteristica) {
-        super(idDoenca, paciente, tipo, apelido);
-        this.idFerida = idFerida;
-        this.doenca = doenca;
-        this.caracteristica = caracteristica;
-    }
+    public Ferida() { }
 
     public int getIdFerida() {
         return idFerida;
@@ -22,12 +16,12 @@ public class Ferida extends Doenca {
         this.idFerida = idFerida;
     }
 
-    public Doenca getDoenca() {
-        return doenca;
+    public Doenca getIdDoenca() {
+        return idDoenca;
     }
 
-    public void setDoenca(Doenca doenca) {
-        this.doenca = doenca;
+    public void setIdDoenca(Doenca doenca) {
+        this.idDoenca = doenca;
     }
 
     public CaracteristicaFerida getCaracteristica() {

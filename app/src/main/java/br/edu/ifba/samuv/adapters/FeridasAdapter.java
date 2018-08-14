@@ -58,7 +58,7 @@ public class FeridasAdapter extends RecyclerView.Adapter<FeridaHolder> {
 
     @Override
     public void onBindViewHolder(FeridaHolder holder, int position) {
-        holder.titulo.setText(feridas.get(position).getApelido());
+        holder.titulo.setText(feridas.get(position).getIdDoenca().getApelido());
         final Ferida ferida = feridas.get(position);
         final Activity activity = getActivity(holder.itemView);
         holder.btnExcluir.setOnClickListener(new Button.OnClickListener() {

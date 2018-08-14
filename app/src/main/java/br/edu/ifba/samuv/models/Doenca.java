@@ -1,11 +1,14 @@
 package br.edu.ifba.samuv.models;
 
-public abstract class Doenca {
+public class Doenca {
 
     private int idDoenca;
     private Paciente paciente;
     private String tipo;
     private String apelido;
+
+    public Doenca() {
+    }
 
     public Doenca(int idDoenca, Paciente paciente, String tipo, String apelido) {
         this.idDoenca = idDoenca;
