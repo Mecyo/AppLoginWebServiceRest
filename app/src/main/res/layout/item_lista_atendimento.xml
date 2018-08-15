@@ -9,31 +9,29 @@
         android:layout_height="wrap_content"
         android:layout_width="0dp"
         android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
-        android:id="@+id/nomePaciente"
-        android:text="Nome do paciente"
+        android:id="@+id/dataHora"
+        android:text="Apelido"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="8dp"
         android:layout_marginLeft="8dp"
-        android:gravity="center"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/btnEditPaciente"
+        app:layout_constraintRight_toLeftOf="@+id/btnEditAtendimento"
         android:layout_marginRight="8dp" />
 
     <ImageButton
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:id="@+id/btnEditPaciente"
+        android:id="@+id/btnEditAtendimento"
         android:src="@android:drawable/ic_menu_zoom"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="8dp"
-        app:layout_constraintRight_toLeftOf="@+id/btnDeletePaciente"
-        android:layout_marginRight="8dp"
-        android:visibility="visible"/>
+        app:layout_constraintRight_toLeftOf="@+id/btnDeleteAtendimento"
+        android:layout_marginRight="8dp" />
 
     <ImageButton
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:id="@+id/btnDeletePaciente"
+        android:id="@+id/btnDeleteAtendimento"
         android:src="@android:drawable/ic_delete"
         android:layout_marginRight="8dp"
         app:layout_constraintRight_toRightOf="parent"

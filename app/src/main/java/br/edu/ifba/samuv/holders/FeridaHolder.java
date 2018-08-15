@@ -20,8 +20,8 @@ public class FeridaHolder extends RecyclerView.ViewHolder {
 
     public FeridaHolder(View itemView) {
         super(itemView);
-        titulo = (TextView) itemView.findViewById(R.id.titulo);
-        btnEditar = (ImageButton) itemView.findViewById(R.id.btnEdit);
-        btnExcluir = (ImageButton) itemView.findViewById(R.id.btnDelete);
+        titulo = (TextView) itemView.findViewById(R.id.apelido);
+        btnEditar = (ImageButton) itemView.findViewById(R.id.btnEditFerida);
+        btnExcluir = (ImageButton) itemView.findViewById(R.id.btnDeleteFerida);
     }
 }

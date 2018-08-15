@@ -5,32 +5,22 @@ import android.hardware.Camera.Area;
 
 public class CaracteristicaFerida {
 
-    private int idCaracteristica;
-    private Ferida ferida;
+    private int id;
     private Area area;
     private Color cor;
 
-    public CaracteristicaFerida(int idCaracteristica, Ferida ferida, Area area, Color cor) {
-        this.idCaracteristica = idCaracteristica;
-        this.ferida = ferida;
+    public CaracteristicaFerida(int id, Ferida ferida, Area area, Color cor) {
+        this.id = id;
         this.area = area;
         this.cor = cor;
     }
 
-    public int getIdCaracteristica() {
-        return idCaracteristica;
+    public int getId() {
+        return id;
     }
 
-    public void setIdCaracteristica(int idCaracteristica) {
-        this.idCaracteristica = idCaracteristica;
-    }
-
-    public Ferida getFerida() {
-        return ferida;
-    }
-
-    public void setFerida(Ferida ferida) {
-        this.ferida = ferida;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public Area getArea() {

@@ -4,28 +4,30 @@ import java.util.Date;
 
 public class Atendimento {
 
-    private int idAtendimento;
+    private int id;
     private Tecnica tecnica;
     private Profissional profissional;
-    private Doenca doenca;
+    private Ferida ferida;
     private CaracteristicaFerida caracteristicaFerida;
     private Date dataHora;
+    private String nota;
 
-    public Atendimento(int idAtendimento, Tecnica tecnica, Profissional profissional, Doenca doenca, CaracteristicaFerida caracteristicaFerida, Date dataHora) {
-        this.idAtendimento = idAtendimento;
+
+    public Atendimento(int id, Tecnica tecnica, Profissional profissional, Doenca doenca, CaracteristicaFerida caracteristicaFerida, Date dataHora, String nota) {
+        this.id = id;
         this.tecnica = tecnica;
         this.profissional = profissional;
-        this.doenca = doenca;
+        this.nota = nota;
         this.caracteristicaFerida = caracteristicaFerida;
         this.dataHora = dataHora;
     }
 
-    public int getIdAtendimento() {
-        return idAtendimento;
+    public int getId() {
+        return id;
     }
 
-    public void setIdAtendimento(int idAtendimento) {
-        this.idAtendimento = idAtendimento;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public Tecnica getTecnica() {
@@ -44,14 +46,6 @@ public class Atendimento {
         this.profissional = profissional;
     }
 
-    public Doenca getDoenca() {
-        return doenca;
-    }
-
-    public void setDoenca(Doenca doenca) {
-        this.doenca = doenca;
-    }
-
     public CaracteristicaFerida getCaracteristicaFerida() {
         return caracteristicaFerida;
     }
@@ -66,5 +60,21 @@ public class Atendimento {
 
     public void setDataHora(Date dataHora) {
         this.dataHora = dataHora;
+    }
+
+    public Ferida getFerida() {
+        return ferida;
+    }
+
+    public void setFerida(Ferida ferida) {
+        this.ferida = ferida;
+    }
+
+    public String getNota() {
+        return nota;
+    }
+
+    public void setNota(String nota) {
+        this.nota = nota;
     }
 }

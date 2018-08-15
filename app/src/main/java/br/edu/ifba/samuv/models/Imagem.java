@@ -4,24 +4,27 @@ import android.media.Image;
 
 public class Imagem {
 
-    private int idImagem;
+    private int id;
     private Atendimento atendimento;
     private String imageName;
     private Image foto;
+    private Image segmented_image;
 
-    public Imagem(int idImagem, Atendimento atendimento, String imageName, Image foto) {
-        this.idImagem = idImagem;
+
+    public Imagem(int id, Atendimento atendimento, String imageName, Image foto, Image segmented_image) {
+        this.id = id;
         this.atendimento = atendimento;
         this.imageName = imageName;
         this.foto = foto;
+        this.segmented_image = segmented_image;
     }
 
-    public int getIdImagem() {
-        return idImagem;
+    public int getId() {
+        return id;
     }
 
-    public void setIdImagem(int idImagem) {
-        this.idImagem = idImagem;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public Atendimento getAtendimento() {
@@ -46,5 +49,13 @@ public class Imagem {
 
     public void setFoto(Image foto) {
         this.foto = foto;
+    }
+
+    public Image getSegmented_image() {
+        return segmented_image;
+    }
+
+    public void setSegmented_image(Image segmented_image) {
+        this.segmented_image = segmented_image;
     }
 }

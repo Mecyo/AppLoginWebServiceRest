@@ -2,20 +2,20 @@ package br.edu.ifba.samuv.models;
 
 public class Tecnica {
 
-    private int idTecnica;
+    private int id;
     private String nomeTecnica;
 
-    public Tecnica(int idTecnica, String nomeTecnica) {
-        this.idTecnica = idTecnica;
+    public Tecnica(int id, String nomeTecnica) {
+        this.id = id;
         this.nomeTecnica = nomeTecnica;
     }
 
-    public int getIdTecnica() {
-        return idTecnica;
+    public int getId() {
+        return id;
     }
 
-    public void setIdTecnica(int idTecnica) {
-        this.idTecnica = idTecnica;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getNomeTecnica() {

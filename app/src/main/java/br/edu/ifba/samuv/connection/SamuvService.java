@@ -38,8 +38,13 @@ public interface SamuvService {
     @GET("feridas/")
     Call<List<Ferida>> getFeridasList();
 
+    @FormUrlEncoded
     @POST("feridas_paciente/")
     Call<List<Ferida>> getFeridasPaciente(@Field("paciente_id") int idPaciente);
+
+    @FormUrlEncoded
+    @POST("atendimentos_ferida/")
+    Call<List<Atendimento>> getAtendimentosPorFerida(@Field("ferida_id") int idFerida);
 
     /*@Multipart
     @POST("samuv_analise/upload_image/")

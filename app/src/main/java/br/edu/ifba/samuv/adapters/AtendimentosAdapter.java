@@ -17,70 +17,79 @@ import java.io.IOException;
 import java.util.List;
 
 import br.edu.ifba.samuv.R;
-import br.edu.ifba.samuv.activities.AtendimentosActivity;
 import br.edu.ifba.samuv.activities.FeridasActivity;
-import br.edu.ifba.samuv.holders.FeridaHolder;
-import br.edu.ifba.samuv.models.Ferida;
+import br.edu.ifba.samuv.holders.AtendimentoHolder;
+import br.edu.ifba.samuv.models.Atendimento;
 import br.edu.ifba.samuv.util.Utils;
 
 /**
  * Created by Emerson Santos on 30/07/18.
  */
 
-public class FeridasAdapter extends RecyclerView.Adapter<FeridaHolder> {
+public class AtendimentosAdapter extends RecyclerView.Adapter<AtendimentoHolder> {
 
-    private final List<Ferida> feridas;
+    private final List<Atendimento> atendimentos;
 
-    public FeridasAdapter(List<Ferida> feridas) {
-        this.feridas = feridas;
+    public AtendimentosAdapter(List<Atendimento> atendimentos) {
+        this.atendimentos = atendimentos;
     }
 
-    public void atualizarFerida(Ferida ferida){
-        feridas.set(feridas.indexOf(ferida), ferida);
-        notifyItemChanged(feridas.indexOf(ferida));
+    public void atualizarAtendimento(Atendimento atendimento){
+        atendimentos.set(atendimentos.indexOf(atendimento), atendimento);
+        notifyItemChanged(atendimentos.indexOf(atendimento));
     }
 
-    public void adicionarFerida(Ferida ferida){
-        feridas.add(ferida);
+    public void adicionarAtendimento(Atendimento atendimento){
+        atendimentos.add(atendimento);
         notifyItemInserted(getItemCount());
     }
 
-    public void removerFerida(Ferida ferida){
-        int position = feridas.indexOf(ferida);
-        feridas.remove(position);
+    public void removerAtendimento(Atendimento atendimento){
+        int position = atendimentos.indexOf(atendimento);
+        atendimentos.remove(position);
         notifyItemRemoved(position);
     }
 
     @Override
-    public FeridaHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new FeridaHolder(LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_lista_ferida, parent, false));
+    public AtendimentoHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new AtendimentoHolder(LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_lista_atendimento, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(FeridaHolder holder, int position) {
-        holder.titulo.setText(feridas.get(position).getApelido());
-        final Ferida ferida = feridas.get(position);
+    public void onBindViewHolder(AtendimentoHolder holder, int position) {
+        holder.dataHora.setText(atendimentos.get(position).getDataHora().toString());
+        final Atendimento atendimento = atendimentos.get(position);
         final Activity activity = getActivity(holder.itemView);
+        ((RecyclerView)activity.findViewById(R.id.recyclerViewAtendimentos)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(activity, FeridasActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                intent.putExtra("atendimento", atendimento.toString());
+                activity.finish();
+                activity.startActivity(intent);
+            }
+        });
+
         holder.btnExcluir.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final View view = v;
                 AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
                 builder.setTitle("Confirmação")
-                        .setMessage("Tem certeza que deseja excluir este ferida?")
+                        .setMessage("Tem certeza que deseja excluir este atendimento?")
                         .setPositiveButton("Excluir", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                //FeridaDAO dao = new FeridaDAO(view.getContext());
-                                //boolean sucesso = dao.excluir(ferida.getId());
+                                //boolean sucesso = dao.excluir(atendimento.getId());
                                 boolean sucesso = true;
                                 if(sucesso) {
-                                    removerFerida(ferida);
+                                    removerAtendimento(atendimento);
                                     Snackbar.make(view, "Excluiu!", Snackbar.LENGTH_LONG)
                                             .setAction("Action", null).show();
                                 }else{
-                                    Snackbar.make(view, "Erro ao excluir o ferida!", Snackbar.LENGTH_LONG)
+                                    Snackbar.make(view, "Erro ao excluir o atendimento!", Snackbar.LENGTH_LONG)
                                             .setAction("Action", null).show();
                                 }
                             }
@@ -91,25 +100,14 @@ public class FeridasAdapter extends RecyclerView.Adapter<FeridaHolder> {
             }
         });
 
-        ((RecyclerView)activity.findViewById(R.id.recyclerViewFeridas)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                /*ALTERAR*/Intent intent = new Intent(activity, FeridasActivity.class);//alterar!!!!!!
-                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                intent.putExtra("ferida", ferida.toString());
-                activity.finish();
-                activity.startActivity(intent);
-            }
-        });
-
         holder.btnEditar.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Activity activity = getActivity(v);
-                Intent intent = new Intent(activity, AtendimentosActivity.class);
+                Intent intent = new Intent(activity, FeridasActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 try {
-                    intent.putExtra("ferida", Utils.objectToJson(ferida, Ferida.class));
+                    intent.putExtra("atendimento", Utils.objectToJson(atendimento, Atendimento.class));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -132,6 +130,6 @@ public class FeridasAdapter extends RecyclerView.Adapter<FeridaHolder> {
 
     @Override
     public int getItemCount() {
-        return feridas != null ? feridas.size() : 0;
+        return atendimentos != null ? atendimentos.size() : 0;
     }
 }

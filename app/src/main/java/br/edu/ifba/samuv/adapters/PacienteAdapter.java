@@ -60,7 +60,7 @@ public class PacienteAdapter extends RecyclerView.Adapter<PacienteHolder> {
 
     @Override
     public void onBindViewHolder(PacienteHolder holder, int position) {
-        holder.nomePaciente.setText(pacientes.get(position).getUsuario().getNomeUsuario());
+        holder.nomePaciente.setText(pacientes.get(position).getNomeCompleto());
         final Paciente paciente = pacientes.get(position);
         final Activity activity = getActivity(holder.itemView);
         ((RecyclerView)activity.findViewById(R.id.recyclerViewPacientes)).setOnClickListener(new View.OnClickListener() {

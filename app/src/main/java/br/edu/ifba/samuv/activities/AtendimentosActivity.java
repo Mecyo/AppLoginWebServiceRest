@@ -13,32 +13,32 @@ import java.io.IOException;
 import java.util.List;
 
 import br.edu.ifba.samuv.R;
-import br.edu.ifba.samuv.adapters.FeridasAdapter;
+import br.edu.ifba.samuv.adapters.AtendimentosAdapter;
 import br.edu.ifba.samuv.connection.RetrofitConfig;
+import br.edu.ifba.samuv.models.Atendimento;
 import br.edu.ifba.samuv.models.Ferida;
-import br.edu.ifba.samuv.models.Paciente;
 import br.edu.ifba.samuv.util.Utils;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class FeridasActivity extends AppCompatActivity {
+public class AtendimentosActivity extends AppCompatActivity {
 
-    private Paciente paciente;
+    private Ferida ferida;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_feridas);
+        setContentView(R.layout.activity_atendimentos);
 
         Intent it = getIntent();
 
-        String jsonInString = it.getStringExtra("paciente");
+        String jsonInString = it.getStringExtra("ferida");
 
         //JSON from String to Object
         try {
-            paciente = (Paciente)Utils.JsonToObject(jsonInString, Paciente.class);
-            ((TextView)findViewById(R.id.txtLogado)).setText("Paciente: " + paciente.getNomeCompleto());
-            ((TextView)findViewById(R.id.txtTitulo)).setText("Feridas");
+            ferida = (Ferida)Utils.JsonToObject(jsonInString, Ferida.class);
+            ((TextView)findViewById(R.id.txtLogado)).setText("Atendimento: " + ferida.getApelido());
+            ((TextView)findViewById(R.id.txtTitulo)).setText("Atendimentos");
         } catch (IOException e) {
             Toast.makeText(getApplicationContext(), "Erro: " + e.getMessage(), Toast.LENGTH_LONG).show();
             e.printStackTrace();
@@ -49,43 +49,43 @@ public class FeridasActivity extends AppCompatActivity {
     }
 
     RecyclerView recyclerView;
-    private FeridasAdapter adapterFerida;
+    private AtendimentosAdapter adapterAtendimento;
 
     private void configurarRecycler() {
 
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerViewFeridas);
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerViewAtendimentos);
         // Configurando o gerenciador de layout para ser uma lista.
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
         try{
 
-            Call<List<Ferida>> call = new RetrofitConfig().samuvService().getFeridasPaciente(paciente.getId());
+            Call<List<Atendimento>> call = new RetrofitConfig().samuvService().getAtendimentosPorFerida(ferida.getPk());
 
-            call.enqueue(new Callback<List<Ferida>>() {
+            call.enqueue(new Callback<List<Atendimento>>() {
                 @Override
-                public void onResponse(Call<List<Ferida>> call, Response<List<Ferida>> response) {
+                public void onResponse(Call<List<Atendimento>> call, Response<List<Atendimento>> response) {
                     // pegar a resposta
                     if (response.isSuccessful()) {
-                        List<Ferida> feridas = response.body();
+                        List<Atendimento> atendimentos = response.body();
 
                         // Adiciona o adapter que irá anexar os objetos à lista.
-                        adapterFerida = new FeridasAdapter(feridas);
-                        recyclerView.setAdapter(adapterFerida);
+                        adapterAtendimento = new AtendimentosAdapter(atendimentos);
+                        recyclerView.setAdapter(adapterAtendimento);
 
                         // Configurando um separador entre linhas, para uma melhor visualização.
-                        recyclerView.addItemDecoration(new DividerItemDecoration(FeridasActivity.this, DividerItemDecoration.VERTICAL));
+                        recyclerView.addItemDecoration(new DividerItemDecoration(AtendimentosActivity.this, DividerItemDecoration.VERTICAL));
 
                     }
                     else {
-                        Toast.makeText(getApplicationContext(), "Não foi possível carregar os feridas!", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "Não foi possível carregar os atendimentos!", Toast.LENGTH_LONG).show();
                     }
                 }
 
                 @Override
-                public void onFailure(Call<List<Ferida>> call, Throwable t) {
+                public void onFailure(Call<List<Atendimento>> call, Throwable t) {
                     // tratar algum erro
-                    Toast.makeText(getApplicationContext(), "Não foi possível carregar os feridas: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Não foi possível carregar os atendimentos: " + t.getMessage(), Toast.LENGTH_LONG).show();
                 }
             });}
         catch (Exception e){
@@ -96,10 +96,10 @@ public class FeridasActivity extends AppCompatActivity {
     //CRIA OS EVENTOS DOS COMPONENTES
     protected void CriarEventos() {
         //CRIANDO EVENTO NO CAMPO DE DATA PARA ABRIR A POPUP
-        /*((RecyclerView)findViewById(R.id.recyclerViewFeridas)).setOnClickListener(new View.OnClickListener() {
+        /*((RecyclerView)findViewById(R.id.recyclerViewAtendimentos)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent main = new Intent(FeridasActivity.this, FeridasActivity.class);
+                Intent main = new Intent(AtendimentosActivity.this, AtendimentosActivity.class);
                 try {
                     main.putExtra("user", Utils.objectToJson(usuario, Usuario.class));
                 } catch (IOException e) {

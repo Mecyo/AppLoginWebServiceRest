@@ -2,33 +2,33 @@ package br.edu.ifba.samuv.models;
 
 public class Ferida {
 
-    private int idFerida;
-    private Doenca idDoenca;
-    private CaracteristicaFerida caracteristica;
+    private int pk;
+    private Paciente paciente;
+    private String apelido;
 
     public Ferida() { }
 
-    public int getIdFerida() {
-        return idFerida;
+    public int getPk() {
+        return pk;
     }
 
-    public void setIdFerida(int idFerida) {
-        this.idFerida = idFerida;
+    public void setPk(int pk) {
+        this.pk = pk;
     }
 
-    public Doenca getIdDoenca() {
-        return idDoenca;
+    public Paciente getPaciente() {
+        return paciente;
     }
 
-    public void setIdDoenca(Doenca doenca) {
-        this.idDoenca = doenca;
+    public void setPaciente(Paciente paciente) {
+        this.paciente = paciente;
     }
 
-    public CaracteristicaFerida getCaracteristica() {
-        return caracteristica;
+    public String getApelido() {
+        return apelido;
     }
 
-    public void setCaracteristica(CaracteristicaFerida caracteristica) {
-        this.caracteristica = caracteristica;
+    public void setApelido(String apelido) {
+        this.apelido = apelido;
     }
 }

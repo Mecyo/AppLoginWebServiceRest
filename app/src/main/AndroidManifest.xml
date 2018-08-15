@@ -33,6 +33,7 @@
         <!-- <activity android:name=".SignupActivity" android:theme="@style/AppTheme.Dark" /> -->
         <activity android:name=".activities.PacientesActivity" />
         <activity android:name=".activities.FeridasActivity"></activity>
+        <activity android:name=".activities.AtendimentosActivity"></activity>
     </application>
 
 </manifest>

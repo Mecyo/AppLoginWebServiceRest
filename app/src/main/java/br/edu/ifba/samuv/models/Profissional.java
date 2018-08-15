@@ -2,15 +2,15 @@ package br.edu.ifba.samuv.models;
 
 public class Profissional extends Usuario {
 
-    private int idProfissional;
+    private int id;
     private Usuario usuario;
 
-    public int getIdProfissional() {
-        return idProfissional;
+    public int getId() {
+        return id;
     }
 
-    public void setIdProfissional(int idProfissional) {
-        this.idProfissional = idProfissional;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public Usuario getUsuario() {

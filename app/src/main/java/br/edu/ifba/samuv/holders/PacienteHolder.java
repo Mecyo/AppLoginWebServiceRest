@@ -20,7 +20,7 @@ public class PacienteHolder extends RecyclerView.ViewHolder {
     public PacienteHolder(View itemView) {
         super(itemView);
         nomePaciente = (TextView) itemView.findViewById(R.id.nomePaciente);
-        btnEditar = (ImageButton) itemView.findViewById(R.id.btnEdit);
-        btnExcluir = (ImageButton) itemView.findViewById(R.id.btnDelete);
+        btnEditar = (ImageButton) itemView.findViewById(R.id.btnEditPaciente);
+        btnExcluir = (ImageButton) itemView.findViewById(R.id.btnDeletePaciente);
     }
 }

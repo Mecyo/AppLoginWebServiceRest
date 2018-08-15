@@ -9,29 +9,29 @@
         android:layout_height="wrap_content"
         android:layout_width="0dp"
         android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
-        android:id="@+id/titulo"
+        android:id="@+id/apelido"
         android:text="Apelido"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="8dp"
         android:layout_marginLeft="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/btnEdit"
+        app:layout_constraintRight_toLeftOf="@+id/btnEditFerida"
         android:layout_marginRight="8dp" />
 
     <ImageButton
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:id="@+id/btnEdit"
+        android:id="@+id/btnEditFerida"
         android:src="@android:drawable/ic_menu_zoom"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="8dp"
-        app:layout_constraintRight_toLeftOf="@+id/btnDelete"
+        app:layout_constraintRight_toLeftOf="@+id/btnDeleteFerida"
         android:layout_marginRight="8dp" />
 
     <ImageButton
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:id="@+id/btnDelete"
+        android:id="@+id/btnDeleteFerida"
         android:src="@android:drawable/ic_delete"
         android:layout_marginRight="8dp"
         app:layout_constraintRight_toRightOf="parent"

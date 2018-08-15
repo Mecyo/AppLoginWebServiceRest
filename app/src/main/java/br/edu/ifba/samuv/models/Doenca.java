@@ -2,27 +2,23 @@ package br.edu.ifba.samuv.models;
 
 public class Doenca {
 
-    private int idDoenca;
+    private int id;
     private Paciente paciente;
-    private String tipo;
-    private String apelido;
 
     public Doenca() {
     }
 
-    public Doenca(int idDoenca, Paciente paciente, String tipo, String apelido) {
-        this.idDoenca = idDoenca;
+    public Doenca(int id, Paciente paciente, String tipo, String apelido) {
+        this.id = id;
         this.paciente = paciente;
-        this.tipo = tipo;
-        this.apelido = apelido;
     }
 
-    public int getIdDoenca() {
-        return idDoenca;
+    public int getId() {
+        return id;
     }
 
-    public void setIdDoenca(int idDoenca) {
-        this.idDoenca = idDoenca;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public Paciente getPaciente() {
@@ -31,21 +27,5 @@ public class Doenca {
 
     public void setPaciente(Paciente paciente) {
         this.paciente = paciente;
-    }
-
-    public String getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
-
-    public String getApelido() {
-        return apelido;
-    }
-
-    public void setApelido(String apelido) {
-        this.apelido = apelido;
     }
 }
