@@ -17,6 +17,7 @@ import br.edu.ifba.samuv.adapters.FeridasAdapter;
 import br.edu.ifba.samuv.connection.RetrofitConfig;
 import br.edu.ifba.samuv.models.Ferida;
 import br.edu.ifba.samuv.models.Paciente;
+import br.edu.ifba.samuv.models.Usuario;
 import br.edu.ifba.samuv.util.Utils;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -25,6 +26,7 @@ import retrofit2.Response;
 public class FeridasActivity extends AppCompatActivity {
 
     private Paciente paciente;
+    private Usuario usuario;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,11 +34,13 @@ public class FeridasActivity extends AppCompatActivity {
 
         Intent it = getIntent();
 
-        String jsonInString = it.getStringExtra("paciente");
+        String jsonPaciente = it.getStringExtra("paciente");
+        String jsonUsuario = it.getStringExtra("user");
 
         //JSON from String to Object
         try {
-            paciente = (Paciente)Utils.JsonToObject(jsonInString, Paciente.class);
+            paciente = (Paciente)Utils.JsonToObject(jsonPaciente, Paciente.class);
+            usuario = (Usuario)Utils.JsonToObject(jsonUsuario, Usuario.class);
             ((TextView)findViewById(R.id.txtLogado)).setText("Paciente: " + paciente.getNomeCompleto());
             ((TextView)findViewById(R.id.txtTitulo)).setText("Feridas");
         } catch (IOException e) {
@@ -70,7 +74,7 @@ public class FeridasActivity extends AppCompatActivity {
                         List<Ferida> feridas = response.body();
 
                         // Adiciona o adapter que irá anexar os objetos à lista.
-                        adapterFerida = new FeridasAdapter(feridas);
+                        adapterFerida = new FeridasAdapter(feridas, usuario);
                         recyclerView.setAdapter(adapterFerida);
 
                         // Configurando um separador entre linhas, para uma melhor visualização.

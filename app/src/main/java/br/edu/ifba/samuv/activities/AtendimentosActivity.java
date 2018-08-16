@@ -1,11 +1,15 @@
 package br.edu.ifba.samuv.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,6 +21,8 @@ import br.edu.ifba.samuv.adapters.AtendimentosAdapter;
 import br.edu.ifba.samuv.connection.RetrofitConfig;
 import br.edu.ifba.samuv.models.Atendimento;
 import br.edu.ifba.samuv.models.Ferida;
+import br.edu.ifba.samuv.models.Paciente;
+import br.edu.ifba.samuv.models.Usuario;
 import br.edu.ifba.samuv.util.Utils;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -25,6 +31,8 @@ import retrofit2.Response;
 public class AtendimentosActivity extends AppCompatActivity {
 
     private Ferida ferida;
+    private Usuario usuario;
+    private FloatingActionButton fab_add_atendimento;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,11 +40,13 @@ public class AtendimentosActivity extends AppCompatActivity {
 
         Intent it = getIntent();
 
-        String jsonInString = it.getStringExtra("ferida");
+        String jsonFerida = it.getStringExtra("ferida");
+        String jsonUsuario = it.getStringExtra("user");
 
         //JSON from String to Object
         try {
-            ferida = (Ferida)Utils.JsonToObject(jsonInString, Ferida.class);
+            ferida = (Ferida)Utils.JsonToObject(jsonFerida, Ferida.class);
+            usuario = (Usuario)Utils.JsonToObject(jsonUsuario, Usuario.class);
             ((TextView)findViewById(R.id.txtLogado)).setText("Atendimento: " + ferida.getApelido());
             ((TextView)findViewById(R.id.txtTitulo)).setText("Atendimentos");
         } catch (IOException e) {
@@ -70,7 +80,7 @@ public class AtendimentosActivity extends AppCompatActivity {
                         List<Atendimento> atendimentos = response.body();
 
                         // Adiciona o adapter que irá anexar os objetos à lista.
-                        adapterAtendimento = new AtendimentosAdapter(atendimentos);
+                        adapterAtendimento = new AtendimentosAdapter(atendimentos, usuario);
                         recyclerView.setAdapter(adapterAtendimento);
 
                         // Configurando um separador entre linhas, para uma melhor visualização.
@@ -95,6 +105,21 @@ public class AtendimentosActivity extends AppCompatActivity {
 
     //CRIA OS EVENTOS DOS COMPONENTES
     protected void CriarEventos() {
+        //CRIANDO EVENTO DO BOTÃO DE ADD NOVO ATENDIMENTO
+        fab_add_atendimento = findViewById(R.id.fab_add_atendimento);
+        fab_add_atendimento.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AtendimentosActivity.this, MainActivity.class);
+                try {
+                    intent.putExtra("user", Utils.objectToJson(usuario, Usuario.class));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(intent);
+            }
+        });
         //CRIANDO EVENTO NO CAMPO DE DATA PARA ABRIR A POPUP
         /*((RecyclerView)findViewById(R.id.recyclerViewAtendimentos)).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,15 +133,6 @@ public class AtendimentosActivity extends AppCompatActivity {
                 startActivity(main);
             }
         });
-        //CRIANDO EVENTO NO CAMPO DE DATA PARA ABRIR A POPUP
-        editTextDataPublicacao.setOnFocusChangeListener(
-                new View.OnFocusChangeListener() {
-
-                    @Override
-                    public void onFocusChange(View v, boolean hasFocus) {
-                        datePickerDialogDataPublicacao.show();
-                    }
-                }
-        );*/
+        */
     }
 }

@@ -9,6 +9,9 @@
     <include layout="@layout/template"
         android:id="@+id/view_template"/>
 
+    <!--<include layout="@layout/content_atendimento"
+        android:id="@+id/cadastro_atendimento"/>-->
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerViewAtendimentos"
         android:layout_width="0dp"

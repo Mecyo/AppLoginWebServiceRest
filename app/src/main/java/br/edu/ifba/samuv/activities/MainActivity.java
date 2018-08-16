@@ -62,14 +62,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String jsonInString = it.getStringExtra("user");
 
         //JSON from String to Object
-        /*try {
+        try {
             usuarioLogado = (Usuario)Utils.JsonToObject(jsonInString, Usuario.class);
         } catch (IOException e) {
             Toast.makeText(getApplicationContext(), "Erro: " + e.getMessage(), Toast.LENGTH_LONG).show();
             e.printStackTrace();
-        }*/
-        String nomeUsuario = "Mecyo";//usuarioLogado.getNomeUsuario();
-
+        }
         Toolbar toolbar = findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
 
@@ -129,23 +127,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //RequestBody idProfissional = RequestBody.create(MediaType.parse("text/plain"), "1");
         //RequestBody idPaciente = RequestBody.create(MediaType.parse("text/plain"), "2");
 
-        //Call<ResponseBody> call = new RetrofitConfig().samuvService().postImage(body, filename, 1, 2);
-        Call<List<Usuario>> call = new RetrofitConfig().samuvService().getUsuariosList();
+        Call<ResponseBody> call = new RetrofitConfig().samuvService().postImage(body, filename, 1, 2);
 
-        call.enqueue(new Callback<List<Usuario>>() {
+        call.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<List<Usuario>> call, Response<List<Usuario>> response) {
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 // pegar a resposta
                 if (response.isSuccessful()) {
                     Toast.makeText(getApplicationContext(), response.message(), Toast.LENGTH_LONG).show();
                 }
                 else {
-                    Toast.makeText(getApplicationContext(), "Usuário/E-mail ou senha inválido(s)!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), response.errorBody().toString(), Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<List<Usuario>> call, Throwable t) {
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
                 // tratar algum erro
                 Toast.makeText(getApplicationContext(), "Não foi possível realizar o login: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }

@@ -6,10 +6,13 @@ import android.hardware.Camera.Area;
 public class CaracteristicaFerida {
 
     private int id;
-    private Area area;
-    private Color cor;
+    private double area;
+    private String cor;
 
-    public CaracteristicaFerida(int id, Ferida ferida, Area area, Color cor) {
+    public CaracteristicaFerida() {
+    }
+
+    public CaracteristicaFerida(int id, double area, String cor) {
         this.id = id;
         this.area = area;
         this.cor = cor;
@@ -23,19 +26,19 @@ public class CaracteristicaFerida {
         this.id = id;
     }
 
-    public Area getArea() {
+    public double getArea() {
         return area;
     }
 
-    public void setArea(Area area) {
+    public void setArea(double area) {
         this.area = area;
     }
 
-    public Color getCor() {
+    public String getCor() {
         return cor;
     }
 
-    public void setCor(Color cor) {
+    public void setCor(String cor) {
         this.cor = cor;
     }
 }

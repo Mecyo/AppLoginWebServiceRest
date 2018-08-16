@@ -31,9 +31,11 @@ import br.edu.ifba.samuv.util.Utils;
 public class PacienteAdapter extends RecyclerView.Adapter<PacienteHolder> {
 
     private final List<Paciente> pacientes;
+    private Usuario usuario;
 
-    public PacienteAdapter(List<Paciente> pacientes) {
+    public PacienteAdapter(List<Paciente> pacientes, Usuario usuario) {
         this.pacientes = pacientes;
+        this.usuario = usuario;
     }
 
     public void atualizarPaciente(Paciente paciente){
@@ -110,6 +112,7 @@ public class PacienteAdapter extends RecyclerView.Adapter<PacienteHolder> {
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 try {
                     intent.putExtra("paciente", Utils.objectToJson(paciente, Paciente.class));
+                    intent.putExtra("user", Utils.objectToJson(usuario, Usuario.class));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

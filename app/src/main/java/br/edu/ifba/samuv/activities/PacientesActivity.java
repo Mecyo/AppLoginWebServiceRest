@@ -24,7 +24,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class PacientesActivity extends AppCompatActivity {
-    Paciente pacienteEditado = null;
+    private Paciente pacienteEditado = null;
+    private Usuario usuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +38,7 @@ public class PacientesActivity extends AppCompatActivity {
 
         //JSON from String to Object
         try {
-            Usuario usuario = (Usuario)Utils.JsonToObject(jsonInString, Usuario.class);
+            usuario = (Usuario)Utils.JsonToObject(jsonInString, Usuario.class);
             ((TextView)findViewById(R.id.txtLogado)).setText("Bem vindo, " + usuario.getNomeUsuario());
             ((TextView)findViewById(R.id.txtTitulo)).setText("Pacientes");
         } catch (IOException e) {
@@ -69,7 +70,7 @@ public class PacientesActivity extends AppCompatActivity {
                     List<Paciente> pacientes = response.body();
 
                     // Adiciona o adapter que irá anexar os objetos à lista.
-                    adapterPaciente = new PacienteAdapter(pacientes);
+                    adapterPaciente = new PacienteAdapter(pacientes, usuario);
                     recyclerView.setAdapter(adapterPaciente);
 
                     // Configurando um separador entre linhas, para uma melhor visualização.

@@ -21,6 +21,7 @@ import br.edu.ifba.samuv.activities.AtendimentosActivity;
 import br.edu.ifba.samuv.activities.FeridasActivity;
 import br.edu.ifba.samuv.holders.FeridaHolder;
 import br.edu.ifba.samuv.models.Ferida;
+import br.edu.ifba.samuv.models.Usuario;
 import br.edu.ifba.samuv.util.Utils;
 
 /**
@@ -30,9 +31,11 @@ import br.edu.ifba.samuv.util.Utils;
 public class FeridasAdapter extends RecyclerView.Adapter<FeridaHolder> {
 
     private final List<Ferida> feridas;
+    private Usuario usuario;
 
-    public FeridasAdapter(List<Ferida> feridas) {
+    public FeridasAdapter(List<Ferida> feridas, Usuario usuario) {
         this.feridas = feridas;
+        this.usuario = usuario;
     }
 
     public void atualizarFerida(Ferida ferida){
@@ -110,6 +113,7 @@ public class FeridasAdapter extends RecyclerView.Adapter<FeridaHolder> {
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 try {
                     intent.putExtra("ferida", Utils.objectToJson(ferida, Ferida.class));
+                    intent.putExtra("user", Utils.objectToJson(usuario, Usuario.class));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

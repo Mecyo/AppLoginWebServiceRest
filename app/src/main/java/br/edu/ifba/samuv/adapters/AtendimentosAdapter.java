@@ -20,6 +20,7 @@ import br.edu.ifba.samuv.R;
 import br.edu.ifba.samuv.activities.FeridasActivity;
 import br.edu.ifba.samuv.holders.AtendimentoHolder;
 import br.edu.ifba.samuv.models.Atendimento;
+import br.edu.ifba.samuv.models.Usuario;
 import br.edu.ifba.samuv.util.Utils;
 
 /**
@@ -29,9 +30,11 @@ import br.edu.ifba.samuv.util.Utils;
 public class AtendimentosAdapter extends RecyclerView.Adapter<AtendimentoHolder> {
 
     private final List<Atendimento> atendimentos;
+    private Usuario usuario;
 
-    public AtendimentosAdapter(List<Atendimento> atendimentos) {
+    public AtendimentosAdapter(List<Atendimento> atendimentos, Usuario usuario) {
         this.atendimentos = atendimentos;
+        this.usuario = usuario;
     }
 
     public void atualizarAtendimento(Atendimento atendimento){
@@ -104,10 +107,11 @@ public class AtendimentosAdapter extends RecyclerView.Adapter<AtendimentoHolder>
             @Override
             public void onClick(View v) {
                 Activity activity = getActivity(v);
-                Intent intent = new Intent(activity, FeridasActivity.class);
+                Intent intent = new Intent(activity, FeridasActivity.class);//ALTERAR PARA DETALHE ATENDIMENTO
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 try {
                     intent.putExtra("atendimento", Utils.objectToJson(atendimento, Atendimento.class));
+                    intent.putExtra("user", Utils.objectToJson(usuario, Usuario.class));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

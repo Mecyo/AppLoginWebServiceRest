@@ -10,6 +10,8 @@ public class Imagem {
     private Image foto;
     private Image segmented_image;
 
+    public Imagem() {
+    }
 
     public Imagem(int id, Atendimento atendimento, String imageName, Image foto, Image segmented_image) {
         this.id = id;

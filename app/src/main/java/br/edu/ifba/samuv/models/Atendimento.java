@@ -5,20 +5,22 @@ import java.util.Date;
 public class Atendimento {
 
     private int id;
-    private Tecnica tecnica;
     private Profissional profissional;
     private Ferida ferida;
-    private CaracteristicaFerida caracteristicaFerida;
+    private CaracteristicaFerida caracteristica;
     private Date dataHora;
     private String nota;
 
 
-    public Atendimento(int id, Tecnica tecnica, Profissional profissional, Doenca doenca, CaracteristicaFerida caracteristicaFerida, Date dataHora, String nota) {
+    public Atendimento() {
+    }
+
+    public Atendimento(int id, Ferida ferida, Profissional profissional, CaracteristicaFerida caracteristicaFerida, Date dataHora, String nota) {
         this.id = id;
-        this.tecnica = tecnica;
         this.profissional = profissional;
         this.nota = nota;
-        this.caracteristicaFerida = caracteristicaFerida;
+        this.ferida = ferida;
+        this.caracteristica = caracteristicaFerida;
         this.dataHora = dataHora;
     }
 
@@ -30,14 +32,6 @@ public class Atendimento {
         this.id = id;
     }
 
-    public Tecnica getTecnica() {
-        return tecnica;
-    }
-
-    public void setTecnica(Tecnica tecnica) {
-        this.tecnica = tecnica;
-    }
-
     public Profissional getProfissional() {
         return profissional;
     }
@@ -46,12 +40,20 @@ public class Atendimento {
         this.profissional = profissional;
     }
 
-    public CaracteristicaFerida getCaracteristicaFerida() {
-        return caracteristicaFerida;
+    public Ferida getFerida() {
+        return ferida;
     }
 
-    public void setCaracteristicaFerida(CaracteristicaFerida caracteristicaFerida) {
-        this.caracteristicaFerida = caracteristicaFerida;
+    public void setFerida(Ferida ferida) {
+        this.ferida = ferida;
+    }
+
+    public CaracteristicaFerida getCaracteristica() {
+        return caracteristica;
+    }
+
+    public void setCaracteristica(CaracteristicaFerida caracteristica) {
+        this.caracteristica = caracteristica;
     }
 
     public Date getDataHora() {
@@ -60,14 +62,6 @@ public class Atendimento {
 
     public void setDataHora(Date dataHora) {
         this.dataHora = dataHora;
-    }
-
-    public Ferida getFerida() {
-        return ferida;
-    }
-
-    public void setFerida(Ferida ferida) {
-        this.ferida = ferida;
     }
 
     public String getNota() {
