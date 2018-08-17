@@ -41,4 +41,13 @@ public class CaracteristicaFerida {
     public void setCor(String cor) {
         this.cor = cor;
     }
+
+    @Override
+    public String toString() {
+        return "CaracteristicaFerida{" +
+                "id=" + id +
+                ", area=" + area +
+                ", cor='" + cor + '\'' +
+                '}';
+    }
 }

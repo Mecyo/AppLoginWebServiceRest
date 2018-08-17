@@ -20,4 +20,12 @@ public class Profissional extends Usuario {
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
+
+    @Override
+    public String toString() {
+        return "Profissional{" +
+                "id=" + id +
+                ", usuario=" + usuario.toString() +
+                '}';
+    }
 }

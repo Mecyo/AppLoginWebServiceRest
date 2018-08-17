@@ -36,6 +36,7 @@ import java.util.List;
 
 import br.edu.ifba.samuv.R;
 import br.edu.ifba.samuv.connection.RetrofitConfig;
+import br.edu.ifba.samuv.models.Profissional;
 import br.edu.ifba.samuv.models.Usuario;
 import br.edu.ifba.samuv.util.Utils;
 import retrofit2.Call;
@@ -72,6 +73,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
+        mEmailView.setText("Mecyo");//TODO Remover!!!!!
 
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -84,6 +86,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 return false;
             }
         });
+        mPasswordView.setText("Mecyo@1985");//TODO Remover!!!!!
 
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
@@ -301,20 +304,20 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         public void realizarLogin() {
 
-            Call<Usuario> call = new RetrofitConfig().samuvService().logar(login, senha);
+            Call<Profissional> call = new RetrofitConfig().samuvService().logar(login, senha);
 
-            call.enqueue(new Callback<Usuario>() {
+            call.enqueue(new Callback<Profissional>() {
                 @Override
-                public void onResponse(Call<Usuario> call, Response<Usuario> response) {
+                public void onResponse(Call<Profissional> call, Response<Profissional> response) {
                     // pegar a resposta
                     if (response.isSuccessful()) {
-                        Usuario usuario = response.body();
-                        usuario.setLogin(login);
-                        usuario.setSenha(senha);
+                        Profissional usuario = response.body();
+                        usuario.getUsuario().setLogin(login);
+                        usuario.getUsuario().setSenha(senha);
 
                         Intent main = new Intent(LoginActivity.this, PacientesActivity.class);
                         try {
-                            main.putExtra("user", Utils.objectToJson(usuario, Usuario.class));
+                            main.putExtra("user", Utils.objectToJson(usuario, Profissional.class));
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -329,7 +332,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 }
 
                 @Override
-                public void onFailure(Call<Usuario> call, Throwable t) {
+                public void onFailure(Call<Profissional> call, Throwable t) {
                     // tratar algum erro
                     Toast.makeText(getApplicationContext(), "Não foi possível realizar o login: " + t.getMessage(), Toast.LENGTH_LONG).show();
                     cancelar();

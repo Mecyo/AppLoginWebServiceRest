@@ -49,4 +49,15 @@ public class Paciente {
     public void setDataCadastro(Date dataCadastro) {
         this.dataCadastro = dataCadastro;
     }
+
+    @Override
+    public String toString() {
+        return "Paciente{" +
+                "id=" + id +
+                ", nomeCompleto='" + nomeCompleto + '\'' +
+                ", sexo='" + sexo + '\'' +
+                ", dataNascimento=" + dataNascimento +
+                ", dataCadastro=" + dataCadastro +
+                '}';
+    }
 }

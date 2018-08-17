@@ -51,7 +51,7 @@ public class Usuario {
         this.senha = senha;
     }
 
-    /*@Override
+    @Override
     public String toString() {
         return "Usuario{" +
                 "idUsuario=" + idUsuario +
@@ -60,15 +60,5 @@ public class Usuario {
                 ", email='" + email + '\'' +
                 ", senha='" + senha + '\'' +
                 '}';
-    }*/
-
-    /*public String toJson() {
-        return "{" +
-                "\"idUsuario\":" + idUsuario +
-                ", \"nomeUsuario\":\"" + nomeUsuario + "\"" +
-                ", \"login\":\"" + login + "\"" +
-                ", \"email\":\"" + email + "\"" +
-                ", \"senha\":\"" + senha + "\"" +
-                "}";
-    }*/
+    }
 }

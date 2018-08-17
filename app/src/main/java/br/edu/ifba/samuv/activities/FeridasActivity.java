@@ -17,6 +17,7 @@ import br.edu.ifba.samuv.adapters.FeridasAdapter;
 import br.edu.ifba.samuv.connection.RetrofitConfig;
 import br.edu.ifba.samuv.models.Ferida;
 import br.edu.ifba.samuv.models.Paciente;
+import br.edu.ifba.samuv.models.Profissional;
 import br.edu.ifba.samuv.models.Usuario;
 import br.edu.ifba.samuv.util.Utils;
 import retrofit2.Call;
@@ -26,7 +27,7 @@ import retrofit2.Response;
 public class FeridasActivity extends AppCompatActivity {
 
     private Paciente paciente;
-    private Usuario usuario;
+    private Profissional usuario;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +41,7 @@ public class FeridasActivity extends AppCompatActivity {
         //JSON from String to Object
         try {
             paciente = (Paciente)Utils.JsonToObject(jsonPaciente, Paciente.class);
-            usuario = (Usuario)Utils.JsonToObject(jsonUsuario, Usuario.class);
+            usuario = (Profissional)Utils.JsonToObject(jsonUsuario, Profissional.class);
             ((TextView)findViewById(R.id.txtLogado)).setText("Paciente: " + paciente.getNomeCompleto());
             ((TextView)findViewById(R.id.txtTitulo)).setText("Feridas");
         } catch (IOException e) {

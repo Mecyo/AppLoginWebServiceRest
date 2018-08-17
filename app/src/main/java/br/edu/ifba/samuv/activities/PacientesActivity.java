@@ -17,6 +17,7 @@ import br.edu.ifba.samuv.R;
 import br.edu.ifba.samuv.adapters.PacienteAdapter;
 import br.edu.ifba.samuv.connection.RetrofitConfig;
 import br.edu.ifba.samuv.models.Paciente;
+import br.edu.ifba.samuv.models.Profissional;
 import br.edu.ifba.samuv.models.Usuario;
 import br.edu.ifba.samuv.util.Utils;
 import retrofit2.Call;
@@ -25,7 +26,7 @@ import retrofit2.Response;
 
 public class PacientesActivity extends AppCompatActivity {
     private Paciente pacienteEditado = null;
-    private Usuario usuario;
+    private Profissional usuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +39,7 @@ public class PacientesActivity extends AppCompatActivity {
 
         //JSON from String to Object
         try {
-            usuario = (Usuario)Utils.JsonToObject(jsonInString, Usuario.class);
+            usuario = (Profissional)Utils.JsonToObject(jsonInString, Profissional.class);
             ((TextView)findViewById(R.id.txtLogado)).setText("Bem vindo, " + usuario.getNomeUsuario());
             ((TextView)findViewById(R.id.txtTitulo)).setText("Pacientes");
         } catch (IOException e) {

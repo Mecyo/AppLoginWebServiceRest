@@ -71,4 +71,16 @@ public class Atendimento {
     public void setNota(String nota) {
         this.nota = nota;
     }
+
+    @Override
+    public String toString() {
+        return "Atendimento{" +
+                "id=" + id +
+                ", profissional=" + profissional.toString() +
+                ", ferida=" + ferida.toString() +
+                ", caracteristica=" + caracteristica.toString() +
+                ", dataHora=" + dataHora +
+                ", nota='" + nota + '\'' +
+                '}';
+    }
 }

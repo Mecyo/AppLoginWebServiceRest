@@ -21,6 +21,7 @@ import br.edu.ifba.samuv.activities.FeridasActivity;
 import br.edu.ifba.samuv.activities.PacientesActivity;
 import br.edu.ifba.samuv.holders.PacienteHolder;
 import br.edu.ifba.samuv.models.Paciente;
+import br.edu.ifba.samuv.models.Profissional;
 import br.edu.ifba.samuv.models.Usuario;
 import br.edu.ifba.samuv.util.Utils;
 
@@ -31,9 +32,9 @@ import br.edu.ifba.samuv.util.Utils;
 public class PacienteAdapter extends RecyclerView.Adapter<PacienteHolder> {
 
     private final List<Paciente> pacientes;
-    private Usuario usuario;
+    private Profissional usuario;
 
-    public PacienteAdapter(List<Paciente> pacientes, Usuario usuario) {
+    public PacienteAdapter(List<Paciente> pacientes, Profissional usuario) {
         this.pacientes = pacientes;
         this.usuario = usuario;
     }
@@ -112,7 +113,7 @@ public class PacienteAdapter extends RecyclerView.Adapter<PacienteHolder> {
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 try {
                     intent.putExtra("paciente", Utils.objectToJson(paciente, Paciente.class));
-                    intent.putExtra("user", Utils.objectToJson(usuario, Usuario.class));
+                    intent.putExtra("user", Utils.objectToJson(usuario, Profissional.class));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

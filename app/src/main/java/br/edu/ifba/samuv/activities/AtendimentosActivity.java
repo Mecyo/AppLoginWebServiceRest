@@ -22,6 +22,7 @@ import br.edu.ifba.samuv.connection.RetrofitConfig;
 import br.edu.ifba.samuv.models.Atendimento;
 import br.edu.ifba.samuv.models.Ferida;
 import br.edu.ifba.samuv.models.Paciente;
+import br.edu.ifba.samuv.models.Profissional;
 import br.edu.ifba.samuv.models.Usuario;
 import br.edu.ifba.samuv.util.Utils;
 import retrofit2.Call;
@@ -31,7 +32,7 @@ import retrofit2.Response;
 public class AtendimentosActivity extends AppCompatActivity {
 
     private Ferida ferida;
-    private Usuario usuario;
+    private Profissional usuario;
     private FloatingActionButton fab_add_atendimento;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +47,7 @@ public class AtendimentosActivity extends AppCompatActivity {
         //JSON from String to Object
         try {
             ferida = (Ferida)Utils.JsonToObject(jsonFerida, Ferida.class);
-            usuario = (Usuario)Utils.JsonToObject(jsonUsuario, Usuario.class);
+            usuario = (Profissional)Utils.JsonToObject(jsonUsuario, Profissional.class);
             ((TextView)findViewById(R.id.txtLogado)).setText("Atendimento: " + ferida.getApelido());
             ((TextView)findViewById(R.id.txtTitulo)).setText("Atendimentos");
         } catch (IOException e) {
@@ -112,7 +113,8 @@ public class AtendimentosActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(AtendimentosActivity.this, MainActivity.class);
                 try {
-                    intent.putExtra("user", Utils.objectToJson(usuario, Usuario.class));
+                    intent.putExtra("user", Utils.objectToJson(usuario, Profissional.class));
+                    intent.putExtra("ferida", Utils.objectToJson(ferida, Ferida.class));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

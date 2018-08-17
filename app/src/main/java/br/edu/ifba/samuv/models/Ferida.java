@@ -31,4 +31,13 @@ public class Ferida {
     public void setApelido(String apelido) {
         this.apelido = apelido;
     }
+
+    @Override
+    public String toString() {
+        return "Ferida{" +
+                "pk=" + pk +
+                ", paciente=" + paciente.toString() +
+                ", apelido='" + apelido + '\'' +
+                '}';
+    }
 }

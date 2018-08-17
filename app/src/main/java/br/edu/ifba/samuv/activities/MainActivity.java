@@ -3,6 +3,7 @@ package br.edu.ifba.samuv.activities;
 import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -13,7 +14,11 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -23,12 +28,17 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import br.edu.ifba.samuv.R;
 import br.edu.ifba.samuv.connection.RetrofitConfig;
 import br.edu.ifba.samuv.models.Atendimento;
+import br.edu.ifba.samuv.models.Ferida;
+import br.edu.ifba.samuv.models.Profissional;
+import br.edu.ifba.samuv.models.Tecnica;
 import br.edu.ifba.samuv.models.Usuario;
+import br.edu.ifba.samuv.util.CustomDialogFragment;
 import br.edu.ifba.samuv.util.Utils;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -45,8 +55,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final int REQUEST_CAPTURE_CAMERA =100;
     private ImageView image_capture;
     private ProgressDialog load;
-    private Usuario usuarioLogado;
+    private Profissional usuarioLogado;
+    private Ferida ferida;
     private Uri mImageUri;
+    private TextView txtResultado;
+    private String anotacoes = "";
+    private List<Tecnica> tecnicas =  new ArrayList<>();
+    private String filename;
+    private File file;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,11 +75,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Intent it = getIntent();
 
         //Recuperei a string da outra activity
-        String jsonInString = it.getStringExtra("user");
+        String jsonUser = it.getStringExtra("user");
+        String jsonFerida = it.getStringExtra("ferida");
 
         //JSON from String to Object
         try {
-            usuarioLogado = (Usuario)Utils.JsonToObject(jsonInString, Usuario.class);
+            usuarioLogado = (Profissional)Utils.JsonToObject(jsonUser, Profissional.class);
+            ferida = (Ferida)Utils.JsonToObject(jsonFerida, Ferida.class);
         } catch (IOException e) {
             Toast.makeText(getApplicationContext(), "Erro: " + e.getMessage(), Toast.LENGTH_LONG).show();
             e.printStackTrace();
@@ -73,6 +91,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         fab_main = findViewById(R.id.fab_main);
         image_capture = findViewById(R.id.img_photo_capture);
+        txtResultado = findViewById(R.id.txtResultado);
+
 
         fab_main.setOnClickListener(this);
     }
@@ -112,41 +132,67 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Bitmap imBitmap = (Bitmap)extra.get("data");
             image_capture.setImageBitmap(imBitmap);
             String path = getRealPathFromURI(mImageUri);
-            String filename = path.substring(path.lastIndexOf("/")+1);
-            File file = Utils.bitmapToFile(imBitmap, getApplicationContext(), filename);
+            filename = path.substring(path.lastIndexOf("/")+1);
+            file = Utils.bitmapToFile(imBitmap, getApplicationContext(), filename);
 
-            iniciarAtendimento(file, filename);
+            showTecnicaDialog();
+            /*AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+            builder.setTitle("Técnicas")
+                    .setMessage("Selecione as técnicas aplicadas:")
+                    .setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+                            builder.setTitle("Outras informações(Opcional)")
+                                    .setMessage("Selecione as técnicas aplicadas:")
+                                    .setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            iniciarAtendimento();
+                                        }
+                                    })
+                                    .create()
+                                    .show();
+                        }
+                    })
+                    .setNegativeButton("Cancelar", null)
+                    .create()
+                    .show();*/
         }
     }
 
-    private void iniciarAtendimento(File file, String filename) {
+    public void iniciarAtendimento(List<Tecnica> tecnicas) {
         final String retorno;
         RequestBody reqFile = RequestBody.create(MediaType.parse("image/*"), file);
         MultipartBody.Part body = MultipartBody.Part.createFormData("foto", file.getName(), reqFile);
-        //RequestBody name = RequestBody.create(MediaType.parse("text/plain"), filename);
-        //RequestBody idProfissional = RequestBody.create(MediaType.parse("text/plain"), "1");
-        //RequestBody idPaciente = RequestBody.create(MediaType.parse("text/plain"), "2");
 
-        Call<ResponseBody> call = new RetrofitConfig().samuvService().postImage(body, filename, 1, 2);
+        try {
+            Call<Atendimento> call = new RetrofitConfig().samuvService().iniciarAtendimento(
+                    body, filename, usuarioLogado.getId(), ferida.getPk(), anotacoes, tecnicas);
 
-        call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                // pegar a resposta
-                if (response.isSuccessful()) {
-                    Toast.makeText(getApplicationContext(), response.message(), Toast.LENGTH_LONG).show();
+            call.enqueue(new Callback<Atendimento>() {
+                @Override
+                public void onResponse(Call<Atendimento> call, Response<Atendimento> response) {
+                    // pegar a resposta
+                    if (response.isSuccessful()) {
+                        Atendimento novo = response.body();
+                        txtResultado.setText(novo.toString());
+                        //Toast.makeText(getApplicationContext(), response.message(), Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), response.errorBody().toString(), Toast.LENGTH_LONG).show();
+                    }
                 }
-                else {
-                    Toast.makeText(getApplicationContext(), response.errorBody().toString(), Toast.LENGTH_LONG).show();
-                }
-            }
 
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                // tratar algum erro
-                Toast.makeText(getApplicationContext(), "Não foi possível realizar o login: " + t.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        });
+                @Override
+                public void onFailure(Call<Atendimento> call, Throwable t) {
+                    // tratar algum erro
+                    Toast.makeText(getApplicationContext(), "Não foi possível realizar o login: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            });
+        }
+        catch (Exception e){
+            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+        }
     }
 
     private String getRealPathFromURI(Uri contentUri) {
@@ -167,24 +213,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return res;
     }
 
-    /*public Url iniciarAtendimento(final Bitmap imBitmap, final MainActivity mainActivity) {
-        try {
-            RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), imBitmap);
-            RequestBody descricao = RequestBody.create(MediaType.parse("text/plain"), imagem.getImageName());
-            Call<Url> call = new RetrofitConfig().samuvService().upload(requestBody, descricao);
-            call.enqueue(new Callback<Url>() {
-                @Override
-                public void onResponse(Call<Url> call, Response<Url> response) {
-
-                }
-
-                @Override
-                public void onFailure(Call<Url> call, Throwable t) {
-
-                }
-            });
-        } catch (Exception e) {
-        }
-        return null;
-    }*/
+    private void showTecnicaDialog() {
+        FragmentManager fm = getSupportFragmentManager();
+        CustomDialogFragment cdf = CustomDialogFragment.newInstance("Técnicas");
+        cdf.show(fm, "dialog_tecnicas");
+    }
 }

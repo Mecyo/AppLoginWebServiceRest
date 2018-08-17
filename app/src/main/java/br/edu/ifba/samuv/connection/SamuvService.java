@@ -6,6 +6,8 @@ import br.edu.ifba.samuv.models.Atendimento;
 import br.edu.ifba.samuv.models.Ferida;
 import br.edu.ifba.samuv.models.Imagem;
 import br.edu.ifba.samuv.models.Paciente;
+import br.edu.ifba.samuv.models.Profissional;
+import br.edu.ifba.samuv.models.Tecnica;
 import br.edu.ifba.samuv.models.Usuario;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -24,10 +26,13 @@ public interface SamuvService {
 
     @FormUrlEncoded
     @POST("logar/")
-    Call<Usuario> logar(@Field("login") String login, @Field("senha") String senha);
+    Call<Profissional> logar(@Field("login") String login, @Field("senha") String senha);
 
     @GET("usuario/{id}/")
     Call<Usuario> getUsuario(@Path("id") String id);
+
+    @GET("usuario/{id}/")
+    Call<Profissional> getProfissionalUsuario(@Path("usuario_id") int id);
 
     @GET("usuarios/")
     Call<List<Usuario>> getUsuariosList();
@@ -37,6 +42,9 @@ public interface SamuvService {
 
     @GET("feridas/")
     Call<List<Ferida>> getFeridasList();
+
+    @GET("tecnicas/")
+    Call<List<Tecnica>> getTecnicasList();
 
     @FormUrlEncoded
     @POST("feridas_paciente/")
@@ -52,6 +60,11 @@ public interface SamuvService {
                             @Part("descricao") RequestBody descricao);*/
 
     @Multipart
-    @POST("upload_image/")
-    Call<ResponseBody> postImage(@Part MultipartBody.Part image, @Field("imageName") String name, @Field("profissional_id") int profissional_id, @Field("paciente_id") int paciente_id);
+    @POST("iniciar_atendimento/")
+    Call<Atendimento> iniciarAtendimento(@Part MultipartBody.Part foto,
+                                               @Part("imageName") String name,
+                                               @Part("profissional_id") int profissional_id,
+                                               @Part("ferida_id") int ferida_id,
+                                               @Part("descricao") String nota,
+                                               @Part("tecnicas") List<Tecnica> tecnicas);
 }
