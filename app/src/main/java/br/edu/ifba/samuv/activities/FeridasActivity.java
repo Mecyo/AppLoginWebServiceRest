@@ -65,7 +65,7 @@ public class FeridasActivity extends AppCompatActivity {
 
         try{
 
-            Call<List<Ferida>> call = new RetrofitConfig().samuvService().getFeridasPaciente(paciente.getId());
+            Call<List<Ferida>> call = RetrofitConfig.samuvService().getFeridasPaciente(paciente.getId());
 
             call.enqueue(new Callback<List<Ferida>>() {
                 @Override

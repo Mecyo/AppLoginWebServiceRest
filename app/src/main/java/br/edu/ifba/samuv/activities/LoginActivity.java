@@ -292,7 +292,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
-    public class UserLoginTask {
+    public class UserLoginTask implements Callback<Profissional> {
 
         private final String login;
         private final String senha;
@@ -304,40 +304,38 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         public void realizarLogin() {
 
-            Call<Profissional> call = new RetrofitConfig().samuvService().logar(login, senha);
+            RetrofitConfig.samuvService().logar(login, senha).enqueue(this);
+        }
 
-            call.enqueue(new Callback<Profissional>() {
-                @Override
-                public void onResponse(Call<Profissional> call, Response<Profissional> response) {
-                    // pegar a resposta
-                    if (response.isSuccessful()) {
-                        Profissional usuario = response.body();
-                        usuario.getUsuario().setLogin(login);
-                        usuario.getUsuario().setSenha(senha);
+        @Override
+        public void onResponse(Call<Profissional> call, Response<Profissional> response) {
+            // pegar a resposta
+            if (response.isSuccessful()) {
+                Profissional usuario = response.body();
+                usuario.getUsuario().setLogin(login);
+                usuario.getUsuario().setSenha(senha);
 
-                        Intent main = new Intent(LoginActivity.this, PacientesActivity.class);
-                        try {
-                            main.putExtra("user", Utils.objectToJson(usuario, Profissional.class));
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        startActivity(main);
-
-                        LoginActivity.this.finish();
-                    }
-                    else {
-                        Toast.makeText(getApplicationContext(), "Usuário/E-mail ou senha inválido(s)!", Toast.LENGTH_LONG).show();
-                        cancelar();
-                    }
+                Intent main = new Intent(LoginActivity.this, PacientesActivity.class);
+                try {
+                    main.putExtra("user", Utils.objectToJson(usuario, Profissional.class));
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
+                startActivity(main);
 
-                @Override
-                public void onFailure(Call<Profissional> call, Throwable t) {
-                    // tratar algum erro
-                    Toast.makeText(getApplicationContext(), "Não foi possível realizar o login: " + t.getMessage(), Toast.LENGTH_LONG).show();
-                    cancelar();
-                }
-            });
+                LoginActivity.this.finish();
+            }
+            else {
+                Toast.makeText(getApplicationContext(), "Usuário/E-mail ou senha inválido(s)!", Toast.LENGTH_LONG).show();
+                cancelar();
+            }
+        }
+
+        @Override
+        public void onFailure(Call<Profissional> call, Throwable t) {
+            // tratar algum erro
+            Toast.makeText(getApplicationContext(), "Não foi possível realizar o login: " + t.getMessage(), Toast.LENGTH_LONG).show();
+            cancelar();
         }
 
         private void cancelar() {

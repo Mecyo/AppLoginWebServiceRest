@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +13,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import java.io.IOException;
 import java.util.List;
@@ -55,25 +59,22 @@ public class PacienteAdapter extends RecyclerView.Adapter<PacienteHolder> {
         notifyItemRemoved(position);
     }
 
+    @NonNull
     @Override
-    public PacienteHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public PacienteHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new PacienteHolder(LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_lista_paciente, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(PacienteHolder holder, int position) {
-        holder.nomePaciente.setText(pacientes.get(position).getNomeCompleto());
+    public void onBindViewHolder(@NonNull PacienteHolder holder, int position) {
         final Paciente paciente = pacientes.get(position);
+        holder.nomePaciente.setText(paciente.getNomeCompleto());
         final Activity activity = getActivity(holder.itemView);
-        ((RecyclerView)activity.findViewById(R.id.recyclerViewPacientes)).setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(activity, FeridasActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                intent.putExtra("paciente", paciente.toString());
-                activity.finish();
-                activity.startActivity(intent);
+
             }
         });
 

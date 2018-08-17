@@ -6,26 +6,24 @@ import retrofit2.converter.jackson.JacksonConverterFactory;
 
 public class RetrofitConfig {
 
-    private static final String urlBaseSamuv = "http://samuv.pythonanywhere.com/api_rest/";
+    private static final String URL_BASE_SAMUV = "http://samuv.pythonanywhere.com/api_rest/";
+    private static Retrofit instance;
 
-    private final Retrofit retrofit;
+    private RetrofitConfig() {}
 
-    public RetrofitConfig() {
-        this.retrofit = new Retrofit.Builder()
-                .baseUrl(urlBaseSamuv)
-                .addConverterFactory(JacksonConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .build();
+    public static Retrofit getInstance(){
+
+        if(instance == null){
+            instance = new Retrofit.Builder()
+                    .baseUrl(URL_BASE_SAMUV)
+                    .addConverterFactory(JacksonConverterFactory.create())
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                    .build();
+        }
+        return instance;
     }
 
-    public RetrofitConfig(String teste) {
-        this.retrofit = new Retrofit.Builder()
-                .baseUrl(teste)
-                .addConverterFactory(JacksonConverterFactory.create())
-                .build();
-    }
-
-    public SamuvService samuvService() {
-        return this.retrofit.create(SamuvService.class);
+    public static SamuvService samuvService() {
+        return getInstance().create(SamuvService.class);
     }
 }

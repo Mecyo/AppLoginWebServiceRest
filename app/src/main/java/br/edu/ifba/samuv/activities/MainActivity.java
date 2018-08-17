@@ -167,7 +167,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         MultipartBody.Part body = MultipartBody.Part.createFormData("foto", file.getName(), reqFile);
 
         try {
-            Call<Atendimento> call = new RetrofitConfig().samuvService().iniciarAtendimento(
+            Call<Atendimento> call = RetrofitConfig.samuvService().iniciarAtendimento(
                     body, filename, usuarioLogado.getId(), ferida.getPk(), anotacoes, tecnicas);
 
             call.enqueue(new Callback<Atendimento>() {

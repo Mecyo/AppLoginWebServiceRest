@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="generos">
+        <item>Agênero</item>
+        <item>Feminino P/ Masculino (FTM)</item>
+        <item>Masculino P/ Feminino (MTF)</item>
+        <item>Andrógino</item>
+        <item>Bigênero</item>
+        <item>Fluido</item>
+        <item>Inconformado</item>
+        <item>Questionador</item>
+        <item>Variante</item>
+        <item>Não-binário</item>
+        <item>Neutro</item>
+        <item>Outro</item>
+        <item>Pangênero</item>
+        <item>Trans-Homem</item>
+        <item>Trans-Pessoa</item>
+        <item>Trans-Mulher</item>
+        <item>Trans-Masculino</item>
+        <item>Trans-Feminino</item>
+        <item>Transsexual</item>
+        <item>Dois espíritos</item>
+    </string-array>
+</resources>

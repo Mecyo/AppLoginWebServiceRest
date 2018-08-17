@@ -62,7 +62,7 @@ public class CustomDialogFragment extends DialogFragment {
         getDialog().getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 
-        Call<List<Tecnica>> callProf = new RetrofitConfig().samuvService().getTecnicasList();
+        Call<List<Tecnica>> callProf = RetrofitConfig.samuvService().getTecnicasList();
 
         final View main = view;
         callProf.enqueue(new Callback<List<Tecnica>>() {
